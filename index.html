@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나만의 대시보드</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg-color: #f4f7f6;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e4e6eb;
+            --hover-bg: #f8f9fa;
+            --accent-color: #3498db;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --border-radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .dashboard {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            background: var(--container-bg);
+            padding: 20px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .search-box {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--border-color);
+            border-radius: 30px;
+            padding: 8px 20px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 8px 0;
+            background: transparent;
+        }
+        
+        .search-box button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 18px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .search-container { flex-direction: column; }
+        }
+
+        .section {
+            background: var(--container-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            gap: 15px;
+            justify-items: center;
+        }
+
+        .shortcut-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: transform 0.2s;
+            width: 100%;
+            padding: 10px 0;
+            border-radius: 12px;
+        }
+
+        .shortcut-item:hover {
+            transform: translateY(-5px);
+            background-color: var(--hover-bg);
+        }
+
+        .shortcut-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .shortcut-name {
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .bg-youtube { background-color: #FF0000; }
+        .bg-soop { background-color: #1a44ea; font-size: 20px; font-weight: bold; } 
+        .bg-chzzk { background-color: #00FFA3; color: #000 !important; font-weight: 900; }
+        .bg-cafe { background-color: #03C75A; font-size: 20px; }
+        .bg-naver { background-color: #03C75A; font-weight: bold; font-family: Arial; }
+        .bg-google { background-color: #FFFFFF; border: 1px solid #ddd; }
+        .bg-google svg { width: 28px; height: 28px; }
+        .bg-ani { background-color: #9C27B0; } 
+
+        .finance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 500px) {
+            .finance-grid { grid-template-columns: 1fr; }
+        }
+
+        .tradingview-widget-container {
+            height: 140px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .finance-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .finance-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .melon-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .melon-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 24px;
+            background-color: #00CD3C; 
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 205, 60, 0.3);
+        }
+        
+        .melon-link:hover {
+            background-color: #00b334;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="search-container">
+            <form class="search-box" action="https://www.google.com/search" method="GET" target="_blank">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                </div>
+                <input type="text" name="q" placeholder="구글 검색" required>
+                <button type="submit">🔍</button>
+            </form>
+            
+            <form class="search-box" action="https://search.naver.com/search.naver" method="GET" target="_blank">
+                <div class="logo-icon" style="background:#03C75A; color:white; font-size:15px;">N</div>
+                <input type="text" name="query" placeholder="네이버 검색" required>
+                <button type="submit">🔍</button>
+            </form>
+        </div>
+
+        <div class="main-grid">
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+                <div class="section">
+                    <div class="section-title">⭐ 자주 찾는 사이트</div>
+                    <div class="shortcuts-grid">
+                        <a href="https://www.youtube.com" target="_blank" class="shortcut-item">
+                            <div class="shortcut-icon bg-youtube">▶</div>
+                            <span class="shortcut-name">유튜브</span>
+                        </a>
+                        <a href="https://www.sooplive.co.kr/" target="_blank" class="shortcut-item">
+                            <div class="shortcut-icon bg-soop">S</div>
+                            <span class="shortcut-name">SOOP</span>
+                        </a>
+                        <a href="https://chzzk.naver.com/" target="_blank" class="shortcut-item">
+                            <div class="shortcut-icon bg-chzzk">⚡</div>
+                            <span class="shortcut-name">치지직</span>
+                        </a>
+                        <a href="https://section.cafe.naver.com/" target="_blank" class="shortcut-item">
+                            <div class="shortcut-icon bg-cafe">☕</div>
+                            <span class="shortcut-name">네이버 카페</span>
+                        </a>
+                        <a href="https://www.naver.com" target="_blank" class="shortcut-item">
+                            <div class="shortcut-icon bg-naver">N</div>
+                            <span class="shortcut-name">네이버</span>
+                        </a>
+                        <a href="https://www.google.com" target="_blank" class="shortcut-item">
+                            <div class="shortcut-icon bg-google">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                                </svg>
+                            </div>
+                            <span class="shortcut-name">구글</span>
+                        </a>
+                        <a href="https://linkkf.app/" target="_blank" class="shortcut-item">
+                            <div class="shortcut-icon bg-ani">🎬</div>
+                            <span class="shortcut-name">애니메이션</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">🎵 멜론 차트</div>
+                    <div class="melon-container">
+                        <div style="font-size: 40px; margin-bottom: 10px;">🎧</div>
+                        <h3 style="margin-bottom:5px; color:#333;">실시간 음악 순위</h3>
+                        <p style="color: #888; font-size: 13px;">버튼을 눌러 멜론 차트를 확인하세요.</p>
+                        <a href="https://www.melon.com/chart/index.htm" target="_blank" class="melon-link">TOP 100 차트 보기</a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+                <div class="section" style="height: 100%;">
+                    <div class="section-title">📈 실시간 금융 지표</div>
+                    <div class="finance-grid">
+                        <div class="finance-item">
+                            <span class="finance-label">삼성전자 (005930)</span>
+                            <div class="tradingview-widget-container">
+                                <div class="tradingview-widget-container__widget"></div>
+                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                                { "symbol": "KRX:005930", "width": "100%", "colorTheme": "light", "isTransparent": true, "locale": "kr" }
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="finance-item">
+                            <span class="finance-label">SK하이닉스 (000660)</span>
+                            <div class="tradingview-widget-container">
+                                <div class="tradingview-widget-container__widget"></div>
+                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                                { "symbol": "KRX:000660", "width": "100%", "colorTheme": "light", "isTransparent": true, "locale": "kr" }
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="finance-item">
+                            <span class="finance-label">달러/원 환율 (USD/KRW)</span>
+                            <div class="tradingview-widget-container">
+                                <div class="tradingview-widget-container__widget"></div>
+                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                                { "symbol": "FX_IDC:USDKRW", "width": "100%", "colorTheme": "light", "isTransparent": true, "locale": "kr" }
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="finance-item">
+                            <span class="finance-label">엔/원 환율 (JPY/KRW)</span>
+                            <div class="tradingview-widget-container">
+                                <div class="tradingview-widget-container__widget"></div>
+                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                                { "symbol": "FX_IDC:JPYKRW", "width": "100%", "colorTheme": "light", "isTransparent": true, "locale": "kr" }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
